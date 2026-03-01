@@ -7,269 +7,125 @@
 - **动森渲染方案**：卡通渲染、固定视角、温馨治愈的美术风格
 - **我的世界沙盒**：完全可破坏/建造的方块世界、无限生成、创造模式
 
-## 项目架构
+## 项目定位
 
-### 1. 核心系统设计
+这是一款具有高度创新意义的独立游戏，目标是为玩家提供：
+- **数值深度**：类似传奇的角色成长和装备系统
+- **视觉风格**：类似动森的温馨治愈卡通风格
+- **沙盒自由**：类似我的世界的完全可修改世界
+- **社交体验**：合作与竞争并存的多人玩法
 
-#### 1.1 数值系统（传奇风格）
+## 核心系统设计
 
-```csharp
-// 角色属性系统
-public class CharacterStats
-{
-    public int Level { get; set; } = 1;
-    public int Experience { get; set; } = 0;
-    
-    // 基础属性
-    public int Strength { get; set; } = 10;
-    public int Intelligence { get; set; } = 10;
-    public int Dexterity { get; set; } = 10;
-    public int Vitality { get; set; } = 10;
-    
-    // 战斗属性
-    public int MaxHealth { get; set; } = 100;
-    public int CurrentHealth { get; set; } = 100;
-    public int MaxMana { get; set; } = 50;
-    public int CurrentMana { get; set; } = 50;
-    public int Attack { get; set; } = 10;
-    public int Defense { get; set; } = 5;
-    
-    // 装备属性加成
-    public Dictionary<string, int> EquipmentBonuses { get; set; } = new Dictionary<string, int>();
-}
+### 1. 角色成长系统
 
-// 装备系统
-public class EquipmentItem
-{
-    public string ItemId { get; set; }
-    public string ItemName { get; set; }
-    public EquipmentType Type { get; set; }
-    public int LevelRequired { get; set; }
-    
-    // 基础属性
-    public Dictionary<string, int> BaseStats { get; set; } = new Dictionary<string, int>();
-    
-    // 强化属性
-    public int EnhancementLevel { get; set; } = 0;
-    public float EnhancementMultiplier { get; set; } = 1.0f;
-    
-    // 镶嵌属性
-    public List<Gem> SocketedGems { get; set; } = new List<Gem>();
-}
+#### 属性体系
+- **基础属性**：力量、智力、敏捷、体质
+- **战斗属性**：攻击、防御、生命、魔法
+- **成长机制**：等级提升与属性自动分配
 
-public enum EquipmentType
-{
-    Weapon,
-    Helmet,
-    Armor,
-    Boots,
-    Ring,
-    Necklace
-}
+#### 装备系统
+- **装备类型**：武器、头盔、护甲、靴子、戒指、项链
+- **强化系统**：装备强化等级与属性加成
+- **镶嵌系统**：宝石镶嵌与属性叠加
+- **品质系统**：普通、精良、稀有、史诗、传说
 
-// 经验值系统
-public class ExperienceSystem
-{
-    public static int GetRequiredExperience(int level)
-    {
-        // 经典的指数增长公式
-        return (int)(100 * Math.Pow(1.15, level));
-    }
-}
-```
+#### 技能体系
+- **职业系统**：多种职业选择
+- **技能树**：分支技能发展
+- **被动技能**：属性加成与特殊效果
+- **主动技能**：战斗与辅助技能
 
-#### 1.2 动森风格渲染系统
+### 2. 经济与社交系统
 
-```csharp
-// 卡通渲染配置
-public class ToonShaderController : MonoBehaviour
-{
-    public Shader toonShader;
-    public float outlineWidth = 0.02f;
-    public Color outlineColor = Color.black;
-    public int shadingSteps = 3;
-    
-    void Start()
-    {
-        ApplyToonShader();
-    }
-    
-    void ApplyToonShader()
-    {
-        var renderers = GetComponentsInChildren<Renderer>();
-        foreach (var renderer in renderers)
-        {
-            var material = renderer.material;
-            material.shader = toonShader;
-            material.SetFloat("_OutlineWidth", outlineWidth);
-            material.SetColor("_OutlineColor", outlineColor);
-            material.SetInt("_ShadingSteps", shadingSteps);
-        }
-    }
-}
+#### 货币体系
+- **基础货币**：金币、银币、铜币
+- **特殊货币**：钻石、徽章、荣誉点
 
-// 固定视角控制（动森风格）
-public class FixedCameraController : MonoBehaviour
-{
-    public Transform target;
-    public float height = 10f;
-    public float distance = 15f;
-    public float rotationSpeed = 2f;
-    
-    private float currentRotation = 45f;
-    
-    void LateUpdate()
-    {
-        if (target == null) return;
-        
-        // 鼠标控制旋转
-        if (Input.GetMouseButton(1))
-        {
-            currentRotation += Input.GetAxis("Mouse X") * rotationSpeed;
-        }
-        
-        // 计算相机位置
-        float x = target.position.x + Mathf.Sin(currentRotation * Mathf.Deg2Rad) * distance;
-        float z = target.position.z + Mathf.Cos(currentRotation * Mathf.Deg2Rad) * distance;
-        float y = target.position.y + height;
-        
-        transform.position = new Vector3(x, y, z);
-        transform.LookAt(target);
-    }
-}
-```
+#### 交易系统
+- **拍卖行**：玩家之间的自由交易
+- **商店系统**：NPC商店与特殊商店
+- **经济平衡**：价格调控与通货膨胀控制
 
-#### 1.3 我的世界风格沙盒系统
+#### 社交功能
+- **好友系统**：好友添加与聊天
+- **组队系统**：组队副本与任务
+- **公会系统**：公会建筑与科技
+- **排行榜**：多种排名机制
 
-```csharp
-// 方块世界生成器
-public class BlockWorldGenerator : MonoBehaviour
-{
-    public int worldSize = 100;
-    public int chunkSize = 16;
-    public int heightLimit = 64;
-    public float noiseScale = 0.1f;
-    public int octaves = 4;
-    
-    void Start()
-    {
-        GenerateWorld();
-    }
-    
-    void GenerateWorld()
-    {
-        // 生成区块
-        int numChunks = worldSize / chunkSize;
-        for (int x = 0; x < numChunks; x++)
-        {
-            for (int z = 0; z < numChunks; z++)
-            {
-                GenerateChunk(x * chunkSize, z * chunkSize);
-            }
-        }
-    }
-    
-    void GenerateChunk(int xOffset, int zOffset)
-    {
-        GameObject chunk = new GameObject($"Chunk_{xOffset}_{zOffset}");
-        chunk.transform.parent = transform;
-        
-        // 使用 Simplex 噪声生成地形
-        for (int x = 0; x < chunkSize; x++)
-        {
-            for (int z = 0; z < chunkSize; z++)
-            {
-                float noiseValue = SimplexNoise.Generate(
-                    (xOffset + x) * noiseScale, 
-                    (zOffset + z) * noiseScale, 
-                    octaves
-                );
-                
-                int height = Mathf.FloorToInt(noiseValue * (heightLimit / 2) + (heightLimit / 2));
-                
-                for (int y = 0; y < height; y++)
-                {
-                    CreateBlock(xOffset + x, y, zOffset + z, chunk.transform);
-                }
-            }
-        }
-    }
-    
-    void CreateBlock(int x, int y, int z, Transform parent)
-    {
-        GameObject block = new GameObject($"Block_{x}_{y}_{z}");
-        block.transform.SetPositionAndRotation(new Vector3(x, y, z), Quaternion.identity);
-        block.transform.parent = parent;
-        
-        // 添加方块组件
-        Block blockComponent = block.AddComponent<Block>();
-        blockComponent.Position = new Vector3Int(x, y, z);
-        
-        // 根据高度设置方块类型
-        if (y < 2)
-        {
-            blockComponent.BlockType = BlockType.Bedrock;
-        }
-        else if (y < heightLimit * 0.3f)
-        {
-            blockComponent.BlockType = BlockType.Stone;
-        }
-        else if (y < heightLimit * 0.6f)
-        {
-            blockComponent.BlockType = BlockType.Dirt;
-        }
-        else
-        {
-            blockComponent.BlockType = BlockType.Grass;
-        }
-    }
-}
+### 3. 世界生成系统
 
-// 方块组件
-public class Block : MonoBehaviour
-{
-    public Vector3Int Position { get; set; }
-    public BlockType BlockType { get; set; }
-    public bool IsBreakable { get; set; } = true;
-    public bool IsSolid { get; set; } = true;
-    
-    public void Break()
-    {
-        if (IsBreakable)
-        {
-            // 掉落物品
-            CreateItemDrop();
-            // 移除方块
-            Destroy(gameObject);
-        }
-    }
-    
-    void CreateItemDrop()
-    {
-        // 创建掉落的物品
-        GameObject item = new GameObject($"Item_{BlockType}");
-        item.transform.position = transform.position + Vector3.up * 0.5f;
-        
-        // 添加物品组件
-        ItemDrop itemDrop = item.AddComponent<ItemDrop>();
-        itemDrop.BlockType = BlockType;
-        itemDrop.PickupRadius = 2f;
-    }
-}
+#### 地形生成
+- **生物群系**：平原、森林、沙漠、雪山等
+- **地形特征**：山脉、河流、湖泊、洞穴
+- **资源分布**：资源点与稀有资源
 
-public enum BlockType
-{
-    Air,
-    Grass,
-    Dirt,
-    Stone,
-    Bedrock,
-    Wood,
-    Leaves,
-    Water,
-    Lava
-}
-```
+#### 季节与天气
+- **季节系统**：春、夏、秋、冬
+- **天气系统**：晴天、雨天、雪天、暴风雨
+- **特殊事件**：自然灾害与异常天气
+
+#### 生态系统
+- **生物群落**：动物、怪物、NPC
+- **食物链**：生态平衡与资源循环
+- **繁殖系统**：动物繁殖与资源再生
+
+### 4. 沙盒建造系统
+
+#### 方块系统
+- **方块类型**：基础、建筑、装饰、特殊
+- **破坏与放置**：自由操作
+- **工具系统**：不同工具的效率差异
+
+#### 建筑系统
+- **建筑材料**：多种建筑风格
+- **建筑蓝图**：预设建筑设计
+- **自定义建筑**：自由设计与建造
+
+#### 自动化系统
+- **红石电路**：复杂电路设计
+- **自动化装置**：自动采集与加工
+- **机械系统**：可移动装置
+
+### 5. 战斗与副本系统
+
+#### 战斗系统
+- **即时战斗**：实时操作
+- **技能释放**：技能冷却与连击
+- **伤害计算**：复杂伤害公式
+
+#### 副本系统
+- **普通副本**：每日任务与经验副本
+- **精英副本**：高难度挑战
+- **团队副本**：多人合作挑战
+- **特殊副本**：限时活动与特殊规则
+
+#### BOSS战
+- **BOSS设计**：特殊技能与机制
+- **战斗策略**：需要团队配合
+- **奖励系统**：稀有装备与道具
+
+## 技术架构
+
+### 渲染系统
+- **卡通渲染**：轮廓着色与渐变
+- **固定视角**：动森风格
+- **材质系统**：高质量渲染
+
+### 性能优化
+- **区块管理**：可见性优化
+- **LOD系统**：细节调整
+- **异步加载**：后台处理
+
+### 网络系统
+- **多人模式**：多人协作与竞争
+- **网络同步**：状态同步与预测
+- **服务器架构**：权威服务器模式
+
+### 数据管理
+- **存档系统**：本地与云存档
+- **数据分析**：玩家行为分析
+- **反作弊**：数据验证与检测
 
 ## 开发路线图
 
@@ -340,44 +196,6 @@ public enum BlockType
    - 商店页面设计
    - 预告片制作
    - 发布策略
-
-## 技术挑战与解决方案
-
-### 1. 世界生成与性能
-
-**挑战**：无限世界的内存管理和渲染性能
-
-**方案**：
-- 区块化管理：只加载可见区块
-- LOD系统：不同距离使用不同精度模型
-- 异步加载：后台线程处理区块加载
-
-### 2. 数值平衡
-
-**挑战**：装备强化与属性成长的平衡
-
-**方案**：
-- 数学模型验证
-- 自动化测试
-- 数据驱动设计
-
-### 3. 多人协作
-
-**挑战**：网络同步与一致性
-
-**方案**：
-- 权威服务器架构
-- 预测与回滚机制
-- 增量同步优化
-
-### 4. 内容生成
-
-**挑战**：如何提供无限的内容
-
-**方案**：
-- 程序化生成
-- 用户创作工具
-- 社区驱动内容
 
 ## 团队建议
 
