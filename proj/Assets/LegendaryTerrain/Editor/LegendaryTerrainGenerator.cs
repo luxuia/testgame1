@@ -45,6 +45,22 @@ namespace LegendaryTerrain.Editor
                 }
             }
 
+            string mirDbPath = Path.Combine(Application.streamingAssetsPath, "LegendaryData", "Server.MirDB");
+            var mapInfos = MirDBParser.Parse(mirDbPath);
+            string currentMapName = Path.GetFileNameWithoutExtension(mapFile);
+            foreach (var info in mapInfos)
+            {
+                if (info.FileName != currentMapName) continue;
+                foreach (var r in info.Respawns)
+                {
+                    var marker = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    marker.name = $"Spawn_Monster{r.MonsterIndex}";
+                    marker.transform.SetParent(root.transform);
+                    marker.transform.localPosition = new Vector3(r.Location.x * BlockSize, 0.5f, r.Location.y * BlockSize);
+                    marker.transform.localScale = Vector3.one * 0.5f;
+                }
+            }
+
             Selection.activeGameObject = root;
             SceneView.lastActiveSceneView?.FrameSelected();
             UnityEngine.Debug.Log($"Generated terrain {grid.Width}x{grid.Height} from {Path.GetFileName(mapFile)}");
