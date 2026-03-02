@@ -12,6 +12,10 @@ namespace LegendaryTerrain
             return format switch
             {
                 0 => LoadMapCellsV0(fileBytes),
+                1 => LoadMapCellsV1(fileBytes),
+                2 => LoadMapCellsV2(fileBytes),
+                3 => LoadMapCellsV3(fileBytes),
+                4 => LoadMapCellsV4(fileBytes),
                 _ => throw new NotSupportedException($"Map format {format} not supported")
             };
         }
@@ -66,6 +70,135 @@ namespace LegendaryTerrain
                 if (fileBytes[offSet] > 0) cell.Attribute = CellAttribute.Door;
                 offSet += 3;
                 offSet += 1; // light
+
+                grid.Set(x, y, cell);
+            }
+
+            return grid;
+        }
+
+        private static Mir2CellGrid LoadMapCellsV1(byte[] fileBytes)
+        {
+            int offSet = 21;
+            int w = BitConverter.ToInt16(fileBytes, offSet);
+            offSet += 2;
+            int xor = BitConverter.ToInt16(fileBytes, offSet);
+            offSet += 2;
+            int h = BitConverter.ToInt16(fileBytes, offSet);
+            int width = w ^ xor;
+            int height = h ^ xor;
+
+            var grid = new Mir2CellGrid { Width = width, Height = height, Cells = new Mir2Cell[width * height] };
+            offSet = 54;
+
+            for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+            {
+                var cell = new Mir2Cell { Attribute = CellAttribute.Walk };
+
+                if (((BitConverter.ToInt32(fileBytes, offSet) ^ 0xAA38AA38) & 0x20000000) != 0) cell.Attribute = CellAttribute.HighWall;
+                offSet += 6;
+                if (((BitConverter.ToInt16(fileBytes, offSet) ^ xor) & 0x8000) != 0) cell.Attribute = CellAttribute.LowWall;
+                offSet += 2;
+                if (fileBytes[offSet] > 0) cell.Attribute = CellAttribute.Door;
+                offSet += 5;
+                offSet += 2; // light + 1
+
+                grid.Set(x, y, cell);
+            }
+
+            return grid;
+        }
+
+        private static Mir2CellGrid LoadMapCellsV2(byte[] fileBytes)
+        {
+            int offSet = 0;
+            int width = BitConverter.ToInt16(fileBytes, offSet);
+            offSet += 2;
+            int height = BitConverter.ToInt16(fileBytes, offSet);
+            offSet += 2;
+
+            var grid = new Mir2CellGrid { Width = width, Height = height, Cells = new Mir2Cell[width * height] };
+            offSet = 52;
+
+            for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+            {
+                var cell = new Mir2Cell { Attribute = CellAttribute.Walk };
+
+                if ((BitConverter.ToInt16(fileBytes, offSet) & 0x8000) != 0) cell.Attribute = CellAttribute.HighWall;
+                offSet += 2;
+                if ((BitConverter.ToInt16(fileBytes, offSet) & 0x8000) != 0) cell.Attribute = CellAttribute.LowWall;
+                offSet += 2;
+                if ((BitConverter.ToInt16(fileBytes, offSet) & 0x8000) != 0) cell.Attribute = CellAttribute.HighWall;
+                offSet += 2;
+                if (fileBytes[offSet] > 0) cell.Attribute = CellAttribute.Door;
+                offSet += 5;
+                offSet += 2; // light + 2
+
+                grid.Set(x, y, cell);
+            }
+
+            return grid;
+        }
+
+        private static Mir2CellGrid LoadMapCellsV3(byte[] fileBytes)
+        {
+            int offSet = 0;
+            int width = BitConverter.ToInt16(fileBytes, offSet);
+            offSet += 2;
+            int height = BitConverter.ToInt16(fileBytes, offSet);
+            offSet += 2;
+
+            var grid = new Mir2CellGrid { Width = width, Height = height, Cells = new Mir2Cell[width * height] };
+            offSet = 52;
+
+            for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+            {
+                var cell = new Mir2Cell { Attribute = CellAttribute.Walk };
+
+                if ((BitConverter.ToInt16(fileBytes, offSet) & 0x8000) != 0) cell.Attribute = CellAttribute.HighWall;
+                offSet += 2;
+                if ((BitConverter.ToInt16(fileBytes, offSet) & 0x8000) != 0) cell.Attribute = CellAttribute.LowWall;
+                offSet += 2;
+                if ((BitConverter.ToInt16(fileBytes, offSet) & 0x8000) != 0) cell.Attribute = CellAttribute.HighWall;
+                offSet += 2;
+                if (fileBytes[offSet] > 0) cell.Attribute = CellAttribute.Door;
+                offSet += 12;
+                offSet += 18; // light + 17
+
+                grid.Set(x, y, cell);
+            }
+
+            return grid;
+        }
+
+        private static Mir2CellGrid LoadMapCellsV4(byte[] fileBytes)
+        {
+            int offSet = 31;
+            int w = BitConverter.ToInt16(fileBytes, offSet);
+            offSet += 2;
+            int xor = BitConverter.ToInt16(fileBytes, offSet);
+            offSet += 2;
+            int h = BitConverter.ToInt16(fileBytes, offSet);
+            int width = w ^ xor;
+            int height = h ^ xor;
+
+            var grid = new Mir2CellGrid { Width = width, Height = height, Cells = new Mir2Cell[width * height] };
+            offSet = 64;
+
+            for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+            {
+                var cell = new Mir2Cell { Attribute = CellAttribute.Walk };
+
+                if ((BitConverter.ToInt16(fileBytes, offSet) & 0x8000) != 0) cell.Attribute = CellAttribute.HighWall;
+                offSet += 2;
+                if ((BitConverter.ToInt16(fileBytes, offSet) & 0x8000) != 0) cell.Attribute = CellAttribute.LowWall;
+                offSet += 4;
+                if (fileBytes[offSet] > 0) cell.Attribute = CellAttribute.Door;
+                offSet += 6;
 
                 grid.Set(x, y, cell);
             }
