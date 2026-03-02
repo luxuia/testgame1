@@ -15,6 +15,20 @@ namespace LegendaryTerrain
     public struct Mir2Cell
     {
         public CellAttribute Attribute;
+        /// <summary>Floor/Back 层资源索引 (WIL 编号)</summary>
+        public short BackIndex;
+        /// <summary>Floor/Back 层资源内图片索引</summary>
+        public int BackImage;
+        /// <summary>Middle 层资源索引 (树、房子、桥等)</summary>
+        public short MiddleIndex;
+        /// <summary>Middle 层资源内图片索引</summary>
+        public short MiddleImage;
+        /// <summary>Front 层资源索引</summary>
+        public short FrontIndex;
+        /// <summary>Front 层资源内图片索引</summary>
+        public short FrontImage;
+        /// <summary>可钓鱼格 (水)</summary>
+        public bool FishingCell;
     }
 
     [Serializable]

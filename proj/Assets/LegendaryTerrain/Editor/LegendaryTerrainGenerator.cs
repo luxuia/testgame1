@@ -9,6 +9,21 @@ namespace LegendaryTerrain.Editor
     {
         private const float BlockSize = 1f;
 
+        [MenuItem("Tools/Legendary/Create Scene Manager")]
+        public static void CreateSceneManager()
+        {
+            var existing = Object.FindObjectOfType<LegendaryTerrain.LegendarySceneManager>();
+            if (existing != null)
+            {
+                Selection.activeGameObject = existing.gameObject;
+                return;
+            }
+            var go = new GameObject("SceneManager");
+            go.AddComponent<LegendaryTerrain.LegendarySceneManager>();
+            Selection.activeGameObject = go;
+            UnityEngine.Debug.Log("SceneManager created. Run Tools > Legendary > Create Block Prefabs first if prefabs are missing.");
+        }
+
         [MenuItem("Tools/Legendary/Test MirDB Parser")]
         public static void TestMirDBParser()
         {
@@ -53,13 +68,38 @@ namespace LegendaryTerrain.Editor
             for (int y = 0; y < grid.Height; y++)
             {
                 var cell = grid.Get(x, y);
-                if (cell.Attribute == CellAttribute.Walk)
+                string blockType;
+                int z = 0;
+                if (cell.FishingCell)
                 {
-                    CreateBlock(root.transform, x, y, 0, "Ground");
+                    blockType = "Water";
+                    z = 0;
+                }
+                else if (cell.Attribute == CellAttribute.Walk)
+                {
+                    blockType = "Ground";
                 }
                 else if (cell.Attribute == CellAttribute.HighWall || cell.Attribute == CellAttribute.LowWall)
                 {
-                    CreateBlock(root.transform, x, y, 1, "Wall");
+                    blockType = "Wall";
+                    z = 1;
+                }
+                else if (cell.Attribute == CellAttribute.Door)
+                {
+                    blockType = "Door";
+                }
+                else
+                {
+                    blockType = "Ground";
+                }
+                CreateBlock(root.transform, x, y, z, blockType);
+
+                // 仅在可行走地面上放置 Middle/Front 占位物（树、房子、桥等）
+                if (cell.Attribute == CellAttribute.Walk && blockType == "Ground")
+                {
+                    string overlay = TileIndexMapper.GetOverlayBlockType(cell);
+                    if (!string.IsNullOrEmpty(overlay))
+                        CreateBlock(root.transform, x, y, 1, overlay, $"{overlay}_{x}_{y}");
                 }
             }
 
@@ -72,11 +112,7 @@ namespace LegendaryTerrain.Editor
                 if (info.FileName != currentMapName) continue;
                 foreach (var r in info.Respawns)
                 {
-                    var marker = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                    marker.name = $"Spawn_Monster{r.MonsterIndex}";
-                    marker.transform.SetParent(root.transform);
-                    marker.transform.localPosition = new Vector3(r.Location.x * BlockSize, 0.5f, r.Location.y * BlockSize);
-                    marker.transform.localScale = Vector3.one * 0.5f;
+                    CreateBlock(root.transform, r.Location.x, r.Location.y, 1, "SpawnMarker", $"Spawn_Monster{r.MonsterIndex}");
                 }
             }
 
@@ -92,15 +128,40 @@ namespace LegendaryTerrain.Editor
             return null;
         }
 
-        private static void CreateBlock(Transform parent, int x, int y, int z, string tag)
+        private static void CreateBlock(Transform parent, int x, int y, int z, string blockType, string customName = null)
         {
-            var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            cube.name = $"{tag}_{x}_{y}";
-            cube.transform.SetParent(parent);
-            cube.transform.localPosition = new Vector3(x * BlockSize, z * BlockSize, y * BlockSize);
-            cube.GetComponent<Renderer>().sharedMaterial = tag == "Ground"
-                ? AssetDatabase.GetBuiltinExtraResource<Material>("Default-Diffuse.mat")
-                : AssetDatabase.GetBuiltinExtraResource<Material>("Default-Diffuse.mat");
+            var prefab = LoadBlockPrefab(blockType);
+            GameObject block;
+            if (prefab != null)
+            {
+                block = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+                block.transform.SetParent(parent);
+            }
+            else
+            {
+                block = GameObject.CreatePrimitive(blockType == "SpawnMarker" ? PrimitiveType.Sphere : PrimitiveType.Cube);
+                block.GetComponent<Renderer>().sharedMaterial = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Diffuse.mat");
+            }
+            block.name = !string.IsNullOrEmpty(customName) ? customName : $"{blockType}_{x}_{y}";
+            block.transform.localPosition = new Vector3(x * BlockSize, z * BlockSize, y * BlockSize);
+            block.transform.localRotation = Quaternion.identity;
+            block.transform.localScale = blockType == "SpawnMarker" ? Vector3.one * 0.5f : Vector3.one;
+        }
+
+        private static GameObject LoadBlockPrefab(string blockType)
+        {
+            return blockType switch
+            {
+                "Ground" => LegendaryTerrainConfig.LoadBlockGround(),
+                "Wall" => LegendaryTerrainConfig.LoadBlockWall(),
+                "Door" => LegendaryTerrainConfig.LoadBlockDoor(),
+                "SpawnMarker" => LegendaryTerrainConfig.LoadBlockSpawnMarker(),
+                "Water" => LegendaryTerrainConfig.LoadBlockWater(),
+                "Tree" => LegendaryTerrainConfig.LoadBlockTree(),
+                "House" => LegendaryTerrainConfig.LoadBlockHouse(),
+                "Bridge" => LegendaryTerrainConfig.LoadBlockBridge(),
+                _ => null
+            };
         }
     }
 }

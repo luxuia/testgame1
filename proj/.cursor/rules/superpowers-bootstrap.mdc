@@ -1,0 +1,76 @@
+---
+description: Superpowers - 结构化开发工作流（brainstorming、TDD、debugging、code review 等）
+globs: 
+alwaysApply: true
+---
+
+# Superpowers Bootstrap
+
+You have superpowers.
+
+**IMPORTANT: The using-superpowers skill content is included below. It is ALREADY LOADED - you are currently following it. Do NOT read "using-superpowers" again - that would be redundant.**
+
+## How to Access Skills in Cursor
+
+Use the `Read` tool on skill files. Skills may be at:
+- `~/.cursor/skills/superpowers/skills/{skill-name}/SKILL.md` (user-level)
+- `.cursor/skills/superpowers/skills/{skill-name}/SKILL.md` (project-level)
+
+**Available skills:**
+- `brainstorming` - Interactive design refinement before implementation
+- `test-driven-development` - RED-GREEN-REFACTOR cycle
+- `systematic-debugging` - 4-phase root cause process
+- `writing-plans` - Detailed implementation plans
+- `executing-plans` - Batch execution with checkpoints
+- `subagent-driven-development` - Fast iteration with two-stage review
+- `using-git-worktrees` - Parallel development branches
+- `finishing-a-development-branch` - Merge/PR decision workflow
+- `dispatching-parallel-agents` - Concurrent subagent workflows
+- `requesting-code-review` - Pre-review checklist
+- `receiving-code-review` - Responding to feedback
+- `verification-before-completion` - Ensure fixes work
+- `writing-skills` - Create new skills
+
+**To load a skill:** `Read` the SKILL.md file for the relevant skill.
+
+## Tool Mapping for Cursor
+
+- `Skill` tool → Use `Read` tool on skill's SKILL.md
+- `TodoWrite` → `TodoWrite` (identical)
+- `Task` with subagents → `Task` tool with `subagent_type`
+- `Read`, `Write`, `Edit` → `Read`, `Write`, `StrReplace`
+- `Bash` → `Shell`
+
+---
+
+# Using Skills
+
+<EXTREMELY-IMPORTANT>
+If you think there is even a 1% chance a skill might apply to what you are doing, you ABSOLUTELY MUST read and follow the skill.
+
+IF A SKILL APPLIES TO YOUR TASK, YOU DO NOT HAVE A CHOICE. YOU MUST USE IT.
+
+This is not negotiable. This is not optional. You cannot rationalize your way out of this.
+</EXTREMELY-IMPORTANT>
+
+## The Rule
+
+**Read and follow relevant skills BEFORE any response or action.** Even a 1% chance a skill might apply means that you should read the skill to check.
+
+## Workflow
+
+1. User message received
+2. Ask: "Might any skill apply?" → If yes, Read the skill file
+3. Announce: "Using [skill] to [purpose]"
+4. If skill has checklist → Create TodoWrite todo per item
+5. Follow skill exactly
+6. Respond (including clarifications)
+
+## Skill Priority
+
+1. **Process skills first** (brainstorming, debugging)
+2. **Implementation skills second**
+
+## User Instructions
+
+Instructions say WHAT, not HOW. "Add X" or "Fix Y" doesn't mean skip workflows.

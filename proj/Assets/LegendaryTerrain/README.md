@@ -4,22 +4,29 @@
 
 ## 使用
 
-1. **Tools > Legendary > Download Crystal Data** — 从 Crystal.Database 克隆/拉取数据，并复制 Jev 的 Maps、Envir、Server.MirDB 到本地
-2. **Tools > Legendary > Generate Terrain from Map** — 解析 .map 文件并生成方块地形场景
+1. **Tools > Legendary > Create Block Prefabs** — 首次使用前执行，创建地块 Prefab（含材质与贴图）
+2. **Tools > Legendary > Download Crystal Data** — 从 Crystal.Database 克隆/拉取数据
+3. **Tools > Legendary > Generate Terrain from Map** — 解析 .map 并生成地形（运行时加载 Prefab）
 
-数据位于 `StreamingAssets/LegendaryData/`。
+数据位于 `StreamingAssets/LegendaryData/`。地块 Prefab 位于 `Resources/LegendaryTerrain/`，可替换其中的贴图与材质。
 
 ## 数据格式
 
 ### .map 格式
 
-支持传奇 2 的 .map 格式 v0–v4，由 `Mir2MapParser` 自动检测并解析：
+支持 [Crystal](https://github.com/Suprcode/Crystal) 中定义的全部 .map 格式（v0–v7、v100），由 `Mir2MapParser` 自动检测并解析：
 
-- **v0** — 经典格式，52 字节头 + 每格 14 字节
-- **v1** — 带 XOR 加密的变体
-- **v2** — 每格 14 字节变体
-- **v3** — 每格 32 字节扩展格式
-- **v4** — 64 字节头 + 每格 12 字节
+| 格式 | 来源 | 说明 |
+|------|------|------|
+| **v0** | 经典 Mir2 | 52 字节头 + 每格 14 字节 |
+| **v1** | Wemade 2010 | Map 2010 Ver 1.0，XOR 加密 |
+| **v2** | Shanda 旧版 | 52 字节头 + 每格 14 字节 |
+| **v3** | Shanda 2012 | 52 字节头 + 每格 36 字节 |
+| **v4** | Wemade AntiHack | Mir2 AntiHack，64 字节头 + 每格 12 字节 |
+| **v5** | Wemade Mir3 | 无标题，空白字节开头 |
+| **v6** | Shanda Mir3 | 标题 (C) SNDA, MIR3. |
+| **v7** | 3/4 Heroes | myth/lifcos 格式 |
+| **v100** | C# 自定义 | header 含 0x43 0x23，仅版本 1.0 |
 
 单元格属性：Walk（可行走）、HighWall、LowWall、Door。
 
