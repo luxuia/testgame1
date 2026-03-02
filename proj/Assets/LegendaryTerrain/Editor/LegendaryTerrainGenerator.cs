@@ -9,6 +9,24 @@ namespace LegendaryTerrain.Editor
     {
         private const float BlockSize = 1f;
 
+        [MenuItem("Tools/Legendary/Test MirDB Parser")]
+        public static void TestMirDBParser()
+        {
+            string mirDbPath = Path.Combine(Application.streamingAssetsPath, "LegendaryData", "Server.MirDB");
+            if (!File.Exists(mirDbPath))
+            {
+                UnityEngine.Debug.LogError("Server.MirDB not found. Run Download Crystal Data first.");
+                return;
+            }
+            var mapInfos = MirDBParser.Parse(mirDbPath);
+            UnityEngine.Debug.Log($"[MirDB] Parsed {mapInfos.Count} MapInfo(s).");
+            if (mapInfos.Count > 0)
+            {
+                var first = mapInfos[0];
+                UnityEngine.Debug.Log($"[MirDB] First map: Index={first.Index}, FileName={first.FileName}, Title={first.Title}, Respawns={first.Respawns.Count}");
+            }
+        }
+
         [MenuItem("Tools/Legendary/Generate Terrain from Map")]
         public static void Generate()
         {
@@ -47,6 +65,7 @@ namespace LegendaryTerrain.Editor
 
             string mirDbPath = Path.Combine(Application.streamingAssetsPath, "LegendaryData", "Server.MirDB");
             var mapInfos = MirDBParser.Parse(mirDbPath);
+            UnityEngine.Debug.Log($"[MirDB] Parsed {mapInfos.Count} MapInfo(s). First map Respawns: {(mapInfos.Count > 0 ? mapInfos[0].Respawns.Count : 0)}");
             string currentMapName = Path.GetFileNameWithoutExtension(mapFile);
             foreach (var info in mapInfos)
             {
