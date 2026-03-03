@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.IO;
+using Unity.Cinemachine;
+
 
 namespace LegendaryTerrain
 {
@@ -60,7 +62,7 @@ namespace LegendaryTerrain
                 spawner.Spawn(mapInfo, _monstersRoot.transform);
             }
 
-            SpawnCharacter();
+            SpawnCharacter(mapInfo);
         }
 
         private Mir2MapInfo GetMapInfo()
@@ -75,27 +77,49 @@ namespace LegendaryTerrain
             return null;
         }
 
-        private void SpawnCharacter()
+        private void SpawnCharacter(Mir2MapInfo mapInfo)
         {
+            var spawnPos = GetSpawnPosition(mapInfo);
             var prefab = LegendaryTerrainConfig.LoadCharacterPlayer();
+            GameObject instance;
             if (prefab == null)
             {
                 var go = GameObject.CreatePrimitive(PrimitiveType.Capsule);
                 go.name = "Character_Player";
                 go.transform.SetParent(_characterRoot.transform);
-                go.transform.localPosition = GetSpawnPosition();
+                go.transform.localPosition = spawnPos;
                 go.AddComponent<LegendaryCharacterController>();
-                return;
+                instance = go;
             }
-            var instance = Object.Instantiate(prefab, _characterRoot.transform);
-            instance.transform.position = GetSpawnPosition();
-            if (instance.GetComponent<LegendaryCharacterController>() == null)
-                instance.AddComponent<LegendaryCharacterController>();
+            else
+            {
+                instance = Object.Instantiate(prefab, _characterRoot.transform);
+                instance.transform.position = spawnPos;
+                if (instance.GetComponent<LegendaryCharacterController>() == null)
+                    instance.AddComponent<LegendaryCharacterController>();
+            }
+            BindCinemachineToCharacter(instance.transform);
         }
 
-        private Vector3 GetSpawnPosition()
+        private Vector3 GetSpawnPosition(Mir2MapInfo mapInfo)
         {
+            if (mapInfo?.SafeZones != null && mapInfo.SafeZones.Count > 0)
+            {
+                var sz = mapInfo.SafeZones.Find(s => s.StartPoint) ?? mapInfo.SafeZones[0];
+                return new Vector3(
+                    sz.Location.x * TerrainGenerator.BlockSize,
+                    0.5f,
+                    sz.Location.y * TerrainGenerator.BlockSize);
+            }
             return new Vector3(0, 0.5f, 0);
         }
+
+        private void BindCinemachineToCharacter(Transform character)
+        {
+            var vcam = Object.FindObjectOfType<CinemachineCamera>();
+            if (vcam != null)
+                vcam.Follow = character;
+        }
+
     }
 }

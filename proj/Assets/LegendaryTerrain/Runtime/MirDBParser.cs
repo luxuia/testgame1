@@ -75,9 +75,12 @@ namespace LegendaryTerrain
             int szCount = reader.ReadInt32();
             for (int i = 0; i < szCount; i++)
             {
-                reader.ReadInt32(); reader.ReadInt32(); // Location
-                reader.ReadUInt16();                   // Size
-                reader.ReadBoolean();                  // StartPoint
+                info.SafeZones.Add(new Mir2SafeZone
+                {
+                    Location = new Vector2Int(reader.ReadInt32(), reader.ReadInt32()),
+                    Size = reader.ReadUInt16(),
+                    StartPoint = reader.ReadBoolean()
+                });
             }
 
             // Respawns - we need these
