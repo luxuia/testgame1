@@ -17,6 +17,9 @@ namespace LegendaryTerrain.Editor
         private const string MaterialsPath = BasePath + "/Materials";
         private const string PrefabsPath = BasePath + "/Prefabs";
         private const string ResourcesPath = BasePath + "/Resources/LegendaryTerrain";
+        private const string BlocksPath = ResourcesPath + "/Blocks";
+        private const string MonstersPath = ResourcesPath + "/Monsters";
+        private const string CharacterPath = ResourcesPath + "/Character";
 
         private static readonly System.Random Rng = new System.Random(42);
 
@@ -37,9 +40,10 @@ namespace LegendaryTerrain.Editor
         public static void CreateMonsterPrefabs()
         {
             EnsureFolder(BasePath + "/Resources", "LegendaryTerrain");
+            EnsureFolder(ResourcesPath, "Monsters");
             for (int i = 0; i <= 9; i++)
             {
-                string prefabPath = $"{ResourcesPath}/Monster_{i}.prefab";
+                string prefabPath = $"{MonstersPath}/Monster_{i}.prefab";
                 var existing = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
                 if (existing != null) AssetDatabase.DeleteAsset(prefabPath);
 
@@ -54,7 +58,7 @@ namespace LegendaryTerrain.Editor
             }
             UpdateMonsterPrefabConfig();
             AssetDatabase.Refresh();
-            Debug.Log("Legendary monster prefabs created (Monster_0..Monster_9).");
+            Debug.Log("Legendary monster prefabs created (Monster_0..Monster_9 in Monsters/).");
         }
 
         private static void UpdateMonsterPrefabConfig()
@@ -69,7 +73,7 @@ namespace LegendaryTerrain.Editor
                 entries.InsertArrayElementAtIndex(i);
                 var elem = entries.GetArrayElementAtIndex(i);
                 elem.FindPropertyRelative("MonsterIndex").intValue = i;
-                elem.FindPropertyRelative("ResourcesPath").stringValue = $"LegendaryTerrain/Monster_{i}";
+                elem.FindPropertyRelative("ResourcesPath").stringValue = $"LegendaryTerrain/Monsters/Monster_{i}";
             }
             so.ApplyModifiedPropertiesWithoutUndo();
             EditorUtility.SetDirty(config);
@@ -83,6 +87,9 @@ namespace LegendaryTerrain.Editor
             EnsureFolder(BasePath, "Prefabs");
             EnsureFolder(BasePath, "Resources");
             EnsureFolder(BasePath + "/Resources", "LegendaryTerrain");
+            EnsureFolder(ResourcesPath, "Blocks");
+            EnsureFolder(ResourcesPath, "Monsters");
+            EnsureFolder(ResourcesPath, "Character");
         }
 
         private static void EnsureFolder(string parent, string name)
@@ -252,14 +259,14 @@ namespace LegendaryTerrain.Editor
 
         private static void CreatePrefabs()
         {
-            CreateBlockPrefab("Block_Ground", PrimitiveType.Cube, "Mat_Ground", ResourcesPath);
-            CreateBlockPrefab("Block_Wall", PrimitiveType.Cube, "Mat_Wall", ResourcesPath);
-            CreateBlockPrefab("Block_Door", PrimitiveType.Cube, "Mat_Door", ResourcesPath);
-            CreateBlockPrefab("Block_SpawnMarker", PrimitiveType.Sphere, "Mat_SpawnMarker", ResourcesPath);
-            CreateBlockPrefab("Block_Water", PrimitiveType.Cube, "Mat_Water", ResourcesPath);
+            CreateBlockPrefab("Block_Ground", PrimitiveType.Cube, "Mat_Ground", BlocksPath);
+            CreateBlockPrefab("Block_Wall", PrimitiveType.Cube, "Mat_Wall", BlocksPath);
+            CreateBlockPrefab("Block_Door", PrimitiveType.Cube, "Mat_Door", BlocksPath);
+            CreateBlockPrefab("Block_SpawnMarker", PrimitiveType.Sphere, "Mat_SpawnMarker", BlocksPath);
+            CreateBlockPrefab("Block_Water", PrimitiveType.Cube, "Mat_Water", BlocksPath);
             CreateTreePrefab();
             CreateHousePrefab();
-            CreateBlockPrefab("Block_Bridge", PrimitiveType.Cube, "Mat_Bridge", ResourcesPath);
+            CreateBlockPrefab("Block_Bridge", PrimitiveType.Cube, "Mat_Bridge", BlocksPath);
             CreateCharacterPrefab();
             CreateMonsterPrefabConfig();
         }
@@ -297,7 +304,7 @@ namespace LegendaryTerrain.Editor
 
         private static void CreateTreePrefab()
         {
-            string prefabPath = $"{ResourcesPath}/Block_Tree.prefab";
+            string prefabPath = $"{BlocksPath}/Block_Tree.prefab";
             var existing = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             if (existing != null) AssetDatabase.DeleteAsset(prefabPath);
 
@@ -326,7 +333,7 @@ namespace LegendaryTerrain.Editor
 
         private static void CreateHousePrefab()
         {
-            string prefabPath = $"{ResourcesPath}/Block_House.prefab";
+            string prefabPath = $"{BlocksPath}/Block_House.prefab";
             var existing = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             if (existing != null) AssetDatabase.DeleteAsset(prefabPath);
 
@@ -377,7 +384,7 @@ namespace LegendaryTerrain.Editor
 
         private static void CreateCharacterPrefab()
         {
-            string prefabPath = $"{ResourcesPath}/Character_Player.prefab";
+            string prefabPath = $"{CharacterPath}/Character_Player.prefab";
             var existing = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             if (existing != null) AssetDatabase.DeleteAsset(prefabPath);
 

@@ -3,21 +3,24 @@ using UnityEngine;
 namespace LegendaryTerrain
 {
     /// <summary>
-    /// 传奇地形 Prefab 资源路径。Prefab 需放在 Resources/LegendaryTerrain/ 下。
+    /// 传奇地形 Prefab 资源路径。按目录区分：Blocks/、Monsters/、Character/。
     /// </summary>
     public static class LegendaryTerrainConfig
     {
         public const string ResourcesFolder = "LegendaryTerrain";
+        public const string BlocksFolder = "LegendaryTerrain/Blocks";
+        public const string MonstersFolder = "LegendaryTerrain/Monsters";
+        public const string CharacterFolder = "LegendaryTerrain/Character";
 
-        public const string BlockGround = "LegendaryTerrain/Block_Ground";
-        public const string BlockWall = "LegendaryTerrain/Block_Wall";
-        public const string BlockDoor = "LegendaryTerrain/Block_Door";
-        public const string BlockSpawnMarker = "LegendaryTerrain/Block_SpawnMarker";
-        public const string BlockWater = "LegendaryTerrain/Block_Water";
-        public const string BlockTree = "LegendaryTerrain/Block_Tree";
-        public const string BlockHouse = "LegendaryTerrain/Block_House";
-        public const string BlockBridge = "LegendaryTerrain/Block_Bridge";
-        public const string CharacterPlayer = "LegendaryTerrain/Character_Player";
+        public const string BlockGround = "LegendaryTerrain/Blocks/Block_Ground";
+        public const string BlockWall = "LegendaryTerrain/Blocks/Block_Wall";
+        public const string BlockDoor = "LegendaryTerrain/Blocks/Block_Door";
+        public const string BlockSpawnMarker = "LegendaryTerrain/Blocks/Block_SpawnMarker";
+        public const string BlockWater = "LegendaryTerrain/Blocks/Block_Water";
+        public const string BlockTree = "LegendaryTerrain/Blocks/Block_Tree";
+        public const string BlockHouse = "LegendaryTerrain/Blocks/Block_House";
+        public const string BlockBridge = "LegendaryTerrain/Blocks/Block_Bridge";
+        public const string CharacterPlayer = "LegendaryTerrain/Character/Character_Player";
 
         public static GameObject LoadBlockGround() => Resources.Load<GameObject>(BlockGround);
         public static GameObject LoadBlockWall() => Resources.Load<GameObject>(BlockWall);

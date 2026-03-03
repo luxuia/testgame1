@@ -9,7 +9,7 @@
 3. **Tools > Legendary > Download Crystal Data** — 从 Crystal.Database 克隆/拉取数据
 4. **Tools > Legendary > Generate Terrain from Map** — 解析 .map 并生成地形（运行时加载 Prefab）
 
-数据位于 `StreamingAssets/LegendaryData/`。地块 Prefab 位于 `Resources/LegendaryTerrain/`，可替换其中的贴图与材质。
+数据位于 `StreamingAssets/LegendaryData/`。Prefab 按目录区分：`Resources/LegendaryTerrain/Blocks/`、`Monsters/`、`Character/`，可替换其中的贴图与材质。
 
 ## 数据格式
 

@@ -14,22 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _entries:
   - MonsterIndex: 0
-    ResourcesPath: LegendaryTerrain/Monster_0
+    ResourcesPath: LegendaryTerrain/Monsters/Monster_0
   - MonsterIndex: 1
-    ResourcesPath: LegendaryTerrain/Monster_1
+    ResourcesPath: LegendaryTerrain/Monsters/Monster_1
   - MonsterIndex: 2
-    ResourcesPath: LegendaryTerrain/Monster_2
+    ResourcesPath: LegendaryTerrain/Monsters/Monster_2
   - MonsterIndex: 3
-    ResourcesPath: LegendaryTerrain/Monster_3
+    ResourcesPath: LegendaryTerrain/Monsters/Monster_3
   - MonsterIndex: 4
-    ResourcesPath: LegendaryTerrain/Monster_4
+    ResourcesPath: LegendaryTerrain/Monsters/Monster_4
   - MonsterIndex: 5
-    ResourcesPath: LegendaryTerrain/Monster_5
+    ResourcesPath: LegendaryTerrain/Monsters/Monster_5
   - MonsterIndex: 6
-    ResourcesPath: LegendaryTerrain/Monster_6
+    ResourcesPath: LegendaryTerrain/Monsters/Monster_6
   - MonsterIndex: 7
-    ResourcesPath: LegendaryTerrain/Monster_7
+    ResourcesPath: LegendaryTerrain/Monsters/Monster_7
   - MonsterIndex: 8
-    ResourcesPath: LegendaryTerrain/Monster_8
+    ResourcesPath: LegendaryTerrain/Monsters/Monster_8
   - MonsterIndex: 9
-    ResourcesPath: LegendaryTerrain/Monster_9
+    ResourcesPath: LegendaryTerrain/Monsters/Monster_9
