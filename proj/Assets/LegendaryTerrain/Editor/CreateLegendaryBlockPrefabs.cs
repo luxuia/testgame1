@@ -33,6 +33,49 @@ namespace LegendaryTerrain.Editor
             Debug.Log("Legendary block prefabs created (织梦岛风格). 贴图→材质→Prefab 已生成并绑定.");
         }
 
+        [MenuItem("Tools/Legendary/Create Monster Prefabs")]
+        public static void CreateMonsterPrefabs()
+        {
+            EnsureFolder(BasePath + "/Resources", "LegendaryTerrain");
+            for (int i = 0; i <= 9; i++)
+            {
+                string prefabPath = $"{ResourcesPath}/Monster_{i}.prefab";
+                var existing = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+                if (existing != null) AssetDatabase.DeleteAsset(prefabPath);
+
+                var go = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+                go.name = $"Monster_{i}";
+                go.transform.localScale = Vector3.one * 0.8f;
+                go.AddComponent<LegendaryTerrain.MonsterController>();
+                go.AddComponent<LegendaryTerrain.DistanceCulling>();
+
+                PrefabUtility.SaveAsPrefabAsset(go, prefabPath);
+                UnityEngine.Object.DestroyImmediate(go);
+            }
+            UpdateMonsterPrefabConfig();
+            AssetDatabase.Refresh();
+            Debug.Log("Legendary monster prefabs created (Monster_0..Monster_9).");
+        }
+
+        private static void UpdateMonsterPrefabConfig()
+        {
+            var config = AssetDatabase.LoadAssetAtPath<LegendaryTerrain.MonsterPrefabConfig>($"{ResourcesPath}/MonsterPrefabConfig.asset");
+            if (config == null) return;
+            var so = new SerializedObject(config);
+            var entries = so.FindProperty("_entries");
+            entries.ClearArray();
+            for (int i = 0; i <= 9; i++)
+            {
+                entries.InsertArrayElementAtIndex(i);
+                var elem = entries.GetArrayElementAtIndex(i);
+                elem.FindPropertyRelative("MonsterIndex").intValue = i;
+                elem.FindPropertyRelative("ResourcesPath").stringValue = $"LegendaryTerrain/Monster_{i}";
+            }
+            so.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(config);
+            AssetDatabase.SaveAssets();
+        }
+
         private static void EnsureDirectories()
         {
             EnsureFolder(BasePath, "Textures");
