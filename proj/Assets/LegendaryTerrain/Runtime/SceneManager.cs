@@ -121,5 +121,16 @@ namespace LegendaryTerrain
                 vcam.Follow = character;
         }
 
+        /// <summary>
+        /// 多地图切换接口。卸载当前地形/怪物，加载新地图，传送角色到指定位置。
+        /// TODO: 实现地形卸载、分块重建、怪物重新生成、角色传送。
+        /// </summary>
+        public void LoadMap(string mapFileName, Vector2Int? spawnLocation = null)
+        {
+            _mapFileName = mapFileName;
+            // TODO: 卸载当前 TerrainChunkManager 的 chunks，销毁 Monsters，重新加载地形与怪物
+            // TODO: 将角色传送到 spawnLocation 或 SafeZone
+            Debug.Log($"[LegendarySceneManager] LoadMap({mapFileName}, {spawnLocation}) - 占位，待实现");
+        }
     }
 }
