@@ -13,7 +13,40 @@ namespace LegendaryTerrain
     public static class MirDBParser
     {
         private const int MinVersion = 60;
-        private const int MaxSupportedVersion = 117;
+        private const int MaxSupportedVersion = 200;
+
+        /// <summary>
+        /// 诊断解析失败原因。返回 (版本, 地图数, 错误信息)。
+        /// </summary>
+        public static (int version, int mapCount, string error) GetDiagnostics(string mirDbPath)
+        {
+            if (!File.Exists(mirDbPath))
+                return (0, 0, "文件不存在");
+
+            try
+            {
+                using var stream = File.OpenRead(mirDbPath);
+                using var reader = new BinaryReader(stream);
+
+                int loadVersion = reader.ReadInt32();
+                int loadCustomVersion = reader.ReadInt32();
+
+                if (loadVersion < MinVersion || loadVersion > MaxSupportedVersion)
+                    return (loadVersion, 0, $"版本 {loadVersion} 超出支持范围 [{MinVersion}-{MaxSupportedVersion}]");
+
+                reader.ReadInt32(); reader.ReadInt32(); reader.ReadInt32(); reader.ReadInt32(); reader.ReadInt32();
+                if (loadVersion >= 63) reader.ReadInt32();
+                if (loadVersion >= 66) reader.ReadInt32();
+                if (loadVersion >= 68) reader.ReadInt32();
+
+                int mapCount = reader.ReadInt32();
+                return (loadVersion, mapCount, null);
+            }
+            catch (Exception ex)
+            {
+                return (0, 0, $"解析异常: {ex.Message}");
+            }
+        }
 
         public static List<Mir2MapInfo> Parse(string mirDbPath)
         {
@@ -28,7 +61,12 @@ namespace LegendaryTerrain
                 int loadCustomVersion = reader.ReadInt32();
 
                 if (loadVersion < MinVersion || loadVersion > MaxSupportedVersion)
+                {
+#if UNITY_EDITOR
+                    UnityEngine.Debug.LogWarning($"[MirDB] 版本 {loadVersion} 超出支持范围 [{MinVersion}-{MaxSupportedVersion}]，路径: {mirDbPath}");
+#endif
                     return new List<Mir2MapInfo>();
+                }
 
                 // Skip header indices to reach MapInfoList
                 reader.ReadInt32(); // MapIndex
@@ -41,19 +79,49 @@ namespace LegendaryTerrain
                 if (loadVersion >= 68) reader.ReadInt32(); // RespawnIndex
 
                 int mapCount = reader.ReadInt32();
+                if (mapCount < 0 || mapCount > 10000)
+                {
+#if UNITY_EDITOR
+                    UnityEngine.Debug.LogWarning($"[MirDB] mapCount={mapCount} 异常，可能格式不匹配");
+#endif
+                    return new List<Mir2MapInfo>();
+                }
+
                 var result = new List<Mir2MapInfo>(mapCount);
+                long streamLength = stream.Length;
 
                 for (int i = 0; i < mapCount; i++)
                 {
-                    var info = ReadMapInfo(reader, loadVersion, loadCustomVersion);
-                    if (info != null)
-                        result.Add(info);
+                    if (stream.Position >= streamLength) break;
+                    try
+                    {
+                        var info = ReadMapInfo(reader, loadVersion, loadCustomVersion);
+                        if (info != null)
+                            result.Add(info);
+                    }
+                    catch (EndOfStreamException)
+                    {
+#if UNITY_EDITOR
+                        UnityEngine.Debug.LogWarning($"[MirDB] 第 {i + 1}/{mapCount} 个 MapInfo 解析时到达流末尾，已返回 {result.Count} 条");
+#endif
+                        break;
+                    }
+                    catch (IOException ex) when (ex.Message.Contains("end of the stream") || ex.Message.Contains("end of stream"))
+                    {
+#if UNITY_EDITOR
+                        UnityEngine.Debug.LogWarning($"[MirDB] 第 {i + 1}/{mapCount} 个 MapInfo 解析时流结束，已返回 {result.Count} 条");
+#endif
+                        break;
+                    }
                 }
 
                 return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+#if UNITY_EDITOR
+                UnityEngine.Debug.LogWarning($"[MirDB] 解析异常: {ex.Message}\n路径: {mirDbPath}");
+#endif
                 return new List<Mir2MapInfo>();
             }
         }
@@ -97,12 +165,11 @@ namespace LegendaryTerrain
                 ReadMovementInfo(reader, version);
             }
 
-            // Booleans and strings
+            // NoTeleport, NoReconnect, NoReconnectMap, NoRandom..NoNames, Fight, Fire (13 bools + 1 string)
             reader.ReadBoolean(); reader.ReadBoolean(); reader.ReadString();
             reader.ReadBoolean(); reader.ReadBoolean(); reader.ReadBoolean(); reader.ReadBoolean();
             reader.ReadBoolean(); reader.ReadBoolean(); reader.ReadBoolean(); reader.ReadBoolean();
             reader.ReadBoolean(); reader.ReadBoolean(); reader.ReadBoolean();
-            reader.ReadBoolean(); reader.ReadBoolean();
             reader.ReadInt32();  // FireDamage
             reader.ReadBoolean(); reader.ReadInt32(); // Lightning, LightningDamage
             reader.ReadByte();   // MapDarkLight

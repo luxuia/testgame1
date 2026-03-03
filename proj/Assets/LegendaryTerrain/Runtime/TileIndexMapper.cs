@@ -9,6 +9,18 @@ namespace LegendaryTerrain
     public static class TileIndexMapper
     {
         /// <summary>
+        /// LowWall 时按 MiddleIndex 区分树与墙。MiddleIndex 0-2、90-99 多为树木，100+ 多为建筑/城墙。
+        /// </summary>
+        public static string GetBlockTypeForLowWall(Mir2Cell cell)
+        {
+            if (cell.MiddleIndex >= 100 && cell.MiddleIndex < 120) return "House"; // 建筑墙
+            if (cell.MiddleIndex >= 110 && cell.MiddleIndex < 115) return "Bridge";
+            if (cell.MiddleIndex >= 0 && cell.MiddleIndex <= 2) return "Tree";
+            if (cell.MiddleIndex >= 90 && cell.MiddleIndex <= 99) return "Tree";
+            return "Wall"; // 默认矮墙/栅栏
+        }
+
+        /// <summary>
         /// 根据单元格贴图索引返回叠加地块类型，无则返回 null。
         /// </summary>
         public static string GetOverlayBlockType(Mir2Cell cell)

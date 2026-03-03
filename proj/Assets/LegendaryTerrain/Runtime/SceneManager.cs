@@ -10,6 +10,7 @@ namespace LegendaryTerrain
     /// </summary>
     public class LegendarySceneManager : MonoBehaviour
     {
+        [MapTitleDropdown]
         [SerializeField] private string _mapFileName = "0";
         [SerializeField] private bool _useChunkedTerrain = true;
 
@@ -76,6 +77,7 @@ namespace LegendaryTerrain
             }
             return null;
         }
+
 
         private void SpawnCharacter(Mir2MapInfo mapInfo)
         {

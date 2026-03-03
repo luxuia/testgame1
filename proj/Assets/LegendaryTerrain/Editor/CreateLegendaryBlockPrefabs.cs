@@ -14,6 +14,8 @@ namespace LegendaryTerrain.Editor
     {
         private const string BasePath = "Assets/LegendaryTerrain";
         private const string TexturesPath = BasePath + "/Textures";
+        /// <summary>传奇贴图源：将 Block_Ground.png 等放入此目录，Create Block Prefabs 时优先使用。</summary>
+        private static string LegacyTexturesPath => Path.Combine(Application.dataPath, "StreamingAssets", "LegendaryData", "Textures");
         private const string MaterialsPath = BasePath + "/Materials";
         private const string PrefabsPath = BasePath + "/Prefabs";
         private const string ResourcesPath = BasePath + "/Resources/LegendaryTerrain";
@@ -101,16 +103,33 @@ namespace LegendaryTerrain.Editor
 
         private static void CreateTextures()
         {
-            CreateGrassTexture("Block_Ground");
-            CreateStoneTexture("Block_Wall");
-            CreateWoodTexture("Block_Door");
-            CreateBridgeTexture("Block_Bridge");
-            CreateWaterTexture("Block_Water");
-            CreateSolidTexture("Block_SpawnMarker", new Color(1f, 0.35f, 0.35f));
-            CreateSolidTexture("Block_Tree", new Color(0.35f, 0.6f, 0.3f));
-            CreateSolidTexture("Block_TreeTrunk", new Color(0.45f, 0.35f, 0.25f));
-            CreateSolidTexture("Block_House", new Color(0.7f, 0.6f, 0.5f));
-            CreateSolidTexture("Character_Player", new Color(0.9f, 0.7f, 0.5f));
+            CreateTextureWithLegacyFallback("Block_Ground", () => CreateGrassTexture("Block_Ground"));
+            CreateTextureWithLegacyFallback("Block_Wall", () => CreateStoneTexture("Block_Wall"));
+            CreateTextureWithLegacyFallback("Block_Door", () => CreateWoodTexture("Block_Door"));
+            CreateTextureWithLegacyFallback("Block_Bridge", () => CreateBridgeTexture("Block_Bridge"));
+            CreateTextureWithLegacyFallback("Block_Water", () => CreateWaterTexture("Block_Water"));
+            CreateTextureWithLegacyFallback("Block_SpawnMarker", () => CreateSolidTexture("Block_SpawnMarker", new Color(1f, 0.35f, 0.35f)));
+            CreateTextureWithLegacyFallback("Block_Tree", () => CreateSolidTexture("Block_Tree", new Color(0.35f, 0.6f, 0.3f)));
+            CreateTextureWithLegacyFallback("Block_TreeTrunk", () => CreateSolidTexture("Block_TreeTrunk", new Color(0.45f, 0.35f, 0.25f)));
+            CreateTextureWithLegacyFallback("Block_House", () => CreateSolidTexture("Block_House", new Color(0.7f, 0.6f, 0.5f)));
+            CreateTextureWithLegacyFallback("Character_Player", () => CreateSolidTexture("Character_Player", new Color(0.9f, 0.7f, 0.5f)));
+        }
+
+        /// <summary>优先使用传奇贴图源；若无则调用 generator 生成程序化贴图。</summary>
+        private static void CreateTextureWithLegacyFallback(string name, Action generator)
+        {
+            string legacyFile = Path.Combine(LegacyTexturesPath, $"{name}.png");
+            string destPath = Path.Combine(Application.dataPath, "LegendaryTerrain", "Textures", $"{name}.png");
+            if (File.Exists(legacyFile))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(destPath));
+                File.Copy(legacyFile, destPath, true);
+                Debug.Log($"[Legendary] 使用传奇贴图源: {name}.png");
+            }
+            else
+            {
+                generator();
+            }
         }
 
         private static void CreateTiledTexture(string name, int w, int h, Func<int, int, Color> generator)

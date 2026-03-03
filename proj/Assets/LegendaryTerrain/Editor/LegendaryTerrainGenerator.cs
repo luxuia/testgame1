@@ -42,6 +42,7 @@ namespace LegendaryTerrain.Editor
             }
         }
 
+
         [MenuItem("Tools/Legendary/Generate Terrain from Map")]
         public static void Generate()
         {
@@ -79,9 +80,14 @@ namespace LegendaryTerrain.Editor
                 {
                     blockType = "Ground";
                 }
-                else if (cell.Attribute == CellAttribute.HighWall || cell.Attribute == CellAttribute.LowWall)
+                else if (cell.Attribute == CellAttribute.HighWall)
                 {
                     blockType = "Wall";
+                    z = 1;
+                }
+                else if (cell.Attribute == CellAttribute.LowWall)
+                {
+                    blockType = TileIndexMapper.GetBlockTypeForLowWall(cell);
                     z = 1;
                 }
                 else if (cell.Attribute == CellAttribute.Door)

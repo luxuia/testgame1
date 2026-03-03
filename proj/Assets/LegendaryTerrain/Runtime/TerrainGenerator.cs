@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.IO;
+using System.Collections.Generic;
 
 namespace LegendaryTerrain
 {
@@ -63,7 +64,8 @@ namespace LegendaryTerrain
                 int z = 0;
                 if (cell.FishingCell) blockType = "Water";
                 else if (cell.Attribute == CellAttribute.Walk) blockType = "Ground";
-                else if (cell.Attribute == CellAttribute.HighWall || cell.Attribute == CellAttribute.LowWall) { blockType = "Wall"; z = 1; }
+                else if (cell.Attribute == CellAttribute.HighWall) { blockType = "Wall"; z = 1; }
+                else if (cell.Attribute == CellAttribute.LowWall) { blockType = TileIndexMapper.GetBlockTypeForLowWall(cell); z = 1; }
                 else if (cell.Attribute == CellAttribute.Door) blockType = "Door";
                 else blockType = "Ground";
 
@@ -189,9 +191,14 @@ namespace LegendaryTerrain
                 {
                     blockType = "Ground";
                 }
-                else if (cell.Attribute == CellAttribute.HighWall || cell.Attribute == CellAttribute.LowWall)
+                else if (cell.Attribute == CellAttribute.HighWall)
                 {
                     blockType = "Wall";
+                    z = 1;
+                }
+                else if (cell.Attribute == CellAttribute.LowWall)
+                {
+                    blockType = TileIndexMapper.GetBlockTypeForLowWall(cell);
                     z = 1;
                 }
                 else if (cell.Attribute == CellAttribute.Door)
