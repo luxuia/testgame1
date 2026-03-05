@@ -55,7 +55,7 @@ public static class LuaPrototypeConverter
         }
 
         var jobject = new JObject();
-        foreach (TablePair pair in table.Pairs())
+        foreach (TablePair pair in table.Pairs)
         {
             string key = PairKeyToString(pair.Key);
             if (key == null)
