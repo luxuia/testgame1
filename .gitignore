@@ -20,6 +20,7 @@
 *.mdb
 *.opendb
 *.VC.db
+.vs/
 
 # Exclude StreamingAssets (Crystal data - large, downloaded separately)
 proj/Assets/StreamingAssets/
