@@ -3,12 +3,32 @@
   "WorkspaceRootPath": "G:\\Project\\testgame1\\proj\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Runtime\\TerrainGenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\LegendaryTerrain\\Runtime\\TerrainGenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Runtime\\SceneManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\LegendaryTerrain\\Runtime\\SceneManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Editor\\LegendaryTerrainGenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\LegendaryTerrain\\Editor\\LegendaryTerrainGenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Editor\\LegendaryDataDownloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\LegendaryTerrain\\Editor\\LegendaryDataDownloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Runtime\\LegendaryTerrainConfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\LegendaryTerrain\\Runtime\\LegendaryTerrainConfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Runtime\\LegendaryCharacterController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\LegendaryTerrain\\Runtime\\LegendaryCharacterController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Runtime\\DistanceCulling.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\LegendaryTerrain\\Runtime\\DistanceCulling.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,32 +38,97 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LegendaryCharacterController.cs",
+              "DocumentMoniker": "G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Runtime\\LegendaryCharacterController.cs",
+              "RelativeDocumentMoniker": "Assets\\LegendaryTerrain\\Runtime\\LegendaryCharacterController.cs",
+              "ToolTip": "G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Runtime\\LegendaryCharacterController.cs",
+              "RelativeToolTip": "Assets\\LegendaryTerrain\\Runtime\\LegendaryCharacterController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-03T15:02:48.358Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "LegendaryTerrainConfig.cs",
+              "DocumentMoniker": "G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Runtime\\LegendaryTerrainConfig.cs",
+              "RelativeDocumentMoniker": "Assets\\LegendaryTerrain\\Runtime\\LegendaryTerrainConfig.cs",
+              "ToolTip": "G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Runtime\\LegendaryTerrainConfig.cs",
+              "RelativeToolTip": "Assets\\LegendaryTerrain\\Runtime\\LegendaryTerrainConfig.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAnwBYAAABcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-03T15:02:40.905Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SceneManager.cs",
+              "DocumentMoniker": "G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Runtime\\SceneManager.cs",
+              "RelativeDocumentMoniker": "Assets\\LegendaryTerrain\\Runtime\\SceneManager.cs",
+              "ToolTip": "G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Runtime\\SceneManager.cs",
+              "RelativeToolTip": "Assets\\LegendaryTerrain\\Runtime\\SceneManager.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAAE8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-03T15:01:27.389Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "TerrainGenerator.cs",
+              "DocumentMoniker": "G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Runtime\\TerrainGenerator.cs",
+              "RelativeDocumentMoniker": "Assets\\LegendaryTerrain\\Runtime\\TerrainGenerator.cs",
+              "ToolTip": "G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Runtime\\TerrainGenerator.cs",
+              "RelativeToolTip": "Assets\\LegendaryTerrain\\Runtime\\TerrainGenerator.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAAACoAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-03T14:49:45.815Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "LegendaryTerrainGenerator.cs",
               "DocumentMoniker": "G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Editor\\LegendaryTerrainGenerator.cs",
               "RelativeDocumentMoniker": "Assets\\LegendaryTerrain\\Editor\\LegendaryTerrainGenerator.cs",
               "ToolTip": "G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Editor\\LegendaryTerrainGenerator.cs",
               "RelativeToolTip": "Assets\\LegendaryTerrain\\Editor\\LegendaryTerrainGenerator.cs",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAEwFEAAAA3AAAAAAAAAA==",
+              "ViewState": "AgIAAF4AAAAAAAAAAAAnwGwAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-02T16:27:46.407Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "LegendaryDataDownloader.cs",
               "DocumentMoniker": "G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Editor\\LegendaryDataDownloader.cs",
               "RelativeDocumentMoniker": "Assets\\LegendaryTerrain\\Editor\\LegendaryDataDownloader.cs",
               "ToolTip": "G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Editor\\LegendaryDataDownloader.cs",
               "RelativeToolTip": "Assets\\LegendaryTerrain\\Editor\\LegendaryDataDownloader.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAACcAAAA9AAAAAAAAAA==",
+              "ViewState": "AgIAACgAAAAAAAAAAAAnwDYAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-02T16:19:05.727Z"
+              "WhenOpened": "2026-03-02T16:19:05.727Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DistanceCulling.cs",
+              "DocumentMoniker": "G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Runtime\\DistanceCulling.cs",
+              "RelativeDocumentMoniker": "Assets\\LegendaryTerrain\\Runtime\\DistanceCulling.cs",
+              "ToolTip": "G:\\Project\\testgame1\\proj\\Assets\\LegendaryTerrain\\Runtime\\DistanceCulling.cs",
+              "RelativeToolTip": "Assets\\LegendaryTerrain\\Runtime\\DistanceCulling.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAAACYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-03T14:45:45.279Z"
             }
           ]
         }
