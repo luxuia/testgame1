@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // ====================================================
 // Project Porcupine Copyright(C) 2016 Team Porcupine
 // This program comes with ABSOLUTELY NO WARRANTY; This is free software, 
@@ -52,7 +52,7 @@ public static partial class SettingsKeyHolder
         get
         {
             string temp;
-            return Settings.GetSetting("general_localization_language", out temp) ? temp : "en_US";
+            return Settings.GetSetting("general_localization_language", out temp) ? temp : "zh-CHS_CN";
         }
 
         set

@@ -28,7 +28,7 @@
           {
             "Name": "language",
             "Key": "general_localization_language",
-            "DefaultValue": "en_US",
+            "DefaultValue": "zh-CHS_CN",
             "ClassName": "LocalizationComboBox",
             "Tooltip": "language_tooltip"
           },

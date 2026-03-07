@@ -35,7 +35,7 @@ namespace ProjectPorcupine.Localization
 
         public static JToken protoJson;
 
-        private static readonly string DefaultLanguage = "en_US";
+        private static readonly string DefaultLanguage = "zh-CHS_CN";
 
         // Contains basic information about each localization
         private static Dictionary<string, LocalizationData> localizationConfigurations;
