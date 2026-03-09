@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4942e1435b570df439fac5f77e6da4eb, type: 3}
+  m_Name: BlockPrefabTable
+  m_EditorClassIdentifier: 
+  m_DefaultTilePrefab: {fileID: 3573217272913099670, guid: ba535e4d74bf94f11a8a71788c16286d,
+    type: 3}
+  m_DefaultFurniturePrefab: {fileID: 6353456863362464806, guid: d0ef43e960dab4998bbf56ad14ea0342,
+    type: 3}
+  m_TilePrefabs: []
+  m_FurniturePrefabs: []
