@@ -1,0 +1,35 @@
+-------------------------------------------------------
+-- Overlay.lua (converted from Overlay.json)
+-------------------------------------------------------
+
+return {
+  Overlay = {
+    oxygen = {
+      LuaFunctionName = "oxygenValueAt",
+    },
+    room = {
+      ColorMap = "Random",
+      LuaFunctionName = "roomNumberValueAt",
+    },
+    power = {
+      LuaFunctionName = "powerValueAt",
+    },
+    temperature = {
+      LuaFunctionName = "temperatureValueAt",
+    },
+    power_network = {
+      ColorMap = "Palette",
+      LuaFunctionName = "PowerGridAt",
+    },
+    fluid_network = {
+      ColorMap = "Palette",
+      LuaFunctionName = "FluidGridAt",
+    },
+    debug_thermal_diffusivity = {
+      LuaFunctionName = "thermalDiffusivityValueAt",
+    },
+    debug_heat_generation = {
+      LuaFunctionName = "heatGenerationValueAt",
+    },
+  },
+}

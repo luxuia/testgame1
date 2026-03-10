@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MoonSharp.Interpreter;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ProjectPorcupine.Entities;
 using UnityEngine;
@@ -259,13 +258,7 @@ public class ModsManager
 
         Dictionary<string, JToken> tagNameToProperty = new Dictionary<string, JToken>();
 
-        // Load JSON files
-        foreach (FileInfo file in prototypeDir.GetFiles("*.json"))
-        {
-            LoadPrototypeFileJson(file, tagNameToProperty);
-        }
-
-        // Load Lua files (Lua config takes precedence over JSON for same tag)
+        // Load Lua prototype files
         foreach (FileInfo file in prototypeDir.GetFiles("*.lua"))
         {
             LoadPrototypeFileLua(file, tagNameToProperty);
@@ -281,11 +274,6 @@ public class ModsManager
             }
 
             DirectoryInfo modPrototypeDir = new DirectoryInfo(modPrototypesPath);
-            foreach (FileInfo file in modPrototypeDir.GetFiles("*.json"))
-            {
-                LoadPrototypeFileJson(file, tagNameToProperty);
-            }
-
             foreach (FileInfo file in modPrototypeDir.GetFiles("*.lua"))
             {
                 LoadPrototypeFileLua(file, tagNameToProperty);
@@ -295,24 +283,13 @@ public class ModsManager
         LoadPrototypesFromJTokens(tagNameToProperty);
     }
 
-    private void LoadPrototypeFileJson(FileInfo file, Dictionary<string, JToken> tagNameToProperty)
-    {
-        UnityDebugger.Debugger.Log("ModsManager", "Loading " + file.FullName);
-        using (StreamReader reader = File.OpenText(file.FullName))
-        {
-            JToken protoJson = JToken.ReadFrom(new JsonTextReader(reader));
-            string tagName = ((JProperty)protoJson.First).Name;
-            tagNameToProperty[tagName] = protoJson;
-        }
-    }
-
     private void LoadPrototypeFileLua(FileInfo file, Dictionary<string, JToken> tagNameToProperty)
     {
         UnityDebugger.Debugger.Log("ModsManager", "Loading Lua prototype " + file.FullName);
         try
         {
             string luaCode = File.ReadAllText(file.FullName);
-            Script script = new Script();
+            Script script = new Script(CoreModules.Preset_SoftSandbox);
             UserData.RegisterAssembly();
             DynValue ret = script.DoString(luaCode);
 

@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // ====================================================
 // Project Porcupine Copyright(C) 2016 Team Porcupine
 // This program comes with ABSOLUTELY NO WARRANTY; This is free software, 
@@ -23,7 +23,8 @@ public class LuaFunctions : IFunctions
         // that we have marked as [MoonSharpUserData]
         UserData.RegisterAssembly();
 
-        this.script = new Script();
+        // Sandbox: Preset_SoftSandbox excludes io, os.execute, load/loadfile/require
+        this.script = new Script(CoreModules.Preset_SoftSandbox);
 
         // Registering types
         UserData.RegisterType<UnityEngine.Vector3>();
@@ -122,26 +123,59 @@ public class LuaFunctions : IFunctions
 
     /// <summary>
     /// Call the specified lua function with the specified args.
+    /// Unified error handling and logging: script name, function name, args summary.
     /// </summary>
     /// <param name="functionName">Function name.</param>
     /// <param name="args">Arguments.</param>
     private DynValue Call(string functionName, bool throwError, params object[] args)
     {
+        string argsSummary = FormatArgsSummary(args);
         try
         {
             return ((Closure)script.Globals[functionName]).Call(args);
         }
         catch (ScriptRuntimeException e)
         {
-            UnityDebugger.Debugger.LogError("Lua", "[" + scriptName + "," + functionName + "] LUA RunTime error: " + e.DecoratedMessage);
+            string msg = string.Format("[{0}] {1}({2}) Lua runtime error: {3}", scriptName, functionName, argsSummary, e.DecoratedMessage);
+            UnityDebugger.Debugger.LogError("Lua", msg);
+            if (throwError)
+            {
+                throw;
+            }
             return null;
         }
         catch (Exception e)
         {
-            UnityDebugger.Debugger.LogError("Lua", "[" + scriptName + "," + functionName + "] Something else went wrong: " + e.Message);
-            UnityDebugger.Debugger.LogError("Lua", e);
+            string msg = string.Format("[{0}] {1}({2}) Error: {3}", scriptName, functionName, argsSummary, e.Message);
+            UnityDebugger.Debugger.LogError("Lua", msg);
+            UnityDebugger.Debugger.LogError("Lua", e.StackTrace);
+            if (throwError)
+            {
+                throw;
+            }
             return null;
         }
+    }
+
+    private static string FormatArgsSummary(object[] args)
+    {
+        if (args == null || args.Length == 0)
+        {
+            return "";
+        }
+        var parts = new string[args.Length];
+        for (int i = 0; i < args.Length; i++)
+        {
+            if (args[i] == null)
+            {
+                parts[i] = "null";
+            }
+            else
+            {
+                parts[i] = args[i].GetType().Name;
+            }
+        }
+        return string.Join(", ", parts);
     }
 
     /// <summary>

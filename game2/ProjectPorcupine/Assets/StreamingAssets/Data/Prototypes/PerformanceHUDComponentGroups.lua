@@ -1,0 +1,54 @@
+-------------------------------------------------------
+-- PerformanceHUDComponentGroups.lua (converted from PerformanceHUDComponentGroups.json)
+-------------------------------------------------------
+
+return {
+  ComponentGroup = {
+    Basic = {
+      Components = {
+        {
+          ClassName = "FPSPerformanceComponent",
+        },
+      },
+    },
+    Extended = {
+      Components = {
+        {
+          ClassName = "FPSPerformanceComponent",
+        },
+        {
+          ClassName = "FPSRangePerformanceComponent",
+        },
+        {
+          ClassName = "FPSPerformanceComponent",
+          Parameters = {
+            MeasurePeriod = "5",
+            DisplayText = "AVG: ",
+            DisplayColor = "false",
+          },
+        },
+      },
+    },
+    Verbose = {
+      Components = {
+        {
+          ClassName = "FPSPerformanceComponent",
+        },
+        {
+          ClassName = "FPSRangePerformanceComponent",
+        },
+        {
+          ClassName = "FPSPerformanceComponent",
+          Parameters = {
+            MeasurePeriod = "5",
+            DisplayText = "AVG: ",
+            DisplayColor = "false",
+          },
+        },
+        {
+          ClassName = "MemoryPerformanceComponent",
+        },
+      },
+    },
+  },
+}

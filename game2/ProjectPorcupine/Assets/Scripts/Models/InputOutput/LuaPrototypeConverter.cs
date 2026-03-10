@@ -32,7 +32,7 @@ public static class LuaPrototypeConverter
         switch (dynValue.Type)
         {
             case DataType.Table:
-                return TableToJObject(dynValue.Table);
+                return TableToJToken(dynValue.Table);
             case DataType.String:
                 return new JValue(dynValue.String);
             case DataType.Number:
@@ -47,11 +47,25 @@ public static class LuaPrototypeConverter
         }
     }
 
-    private static JObject TableToJObject(Table table)
+    private static JToken TableToJToken(Table table)
     {
         if (table == null)
         {
             return null;
+        }
+
+        if (IsArrayLike(table, out var arrayValues))
+        {
+            var jarray = new JArray();
+            foreach (var v in arrayValues)
+            {
+                var token = DynValueToJToken(v);
+                if (token != null)
+                {
+                    jarray.Add(token);
+                }
+            }
+            return jarray;
         }
 
         var jobject = new JObject();
@@ -71,6 +85,38 @@ public static class LuaPrototypeConverter
         }
 
         return jobject;
+    }
+
+    private static bool IsArrayLike(Table table, out System.Collections.Generic.List<DynValue> values)
+    {
+        values = new System.Collections.Generic.List<DynValue>();
+        var indexed = new System.Collections.Generic.SortedDictionary<int, DynValue>();
+        foreach (TablePair pair in table.Pairs)
+        {
+            if (pair.Key.Type != DataType.Number)
+            {
+                return false;
+            }
+            int idx = (int)pair.Key.Number;
+            if (idx < 1)
+            {
+                return false;
+            }
+            indexed[idx] = pair.Value;
+        }
+        if (indexed.Count == 0)
+        {
+            return false;
+        }
+        for (int i = 1; i <= indexed.Count; i++)
+        {
+            if (!indexed.TryGetValue(i, out var v))
+            {
+                return false;
+            }
+            values.Add(v);
+        }
+        return true;
     }
 
     private static string PairKeyToString(DynValue key)

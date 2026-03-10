@@ -1,0 +1,43 @@
+-------------------------------------------------------
+-- RoomBehavior.lua (converted from RoomBehavior.json)
+-------------------------------------------------------
+
+return {
+  RoomBehavior = {
+    airlock = {
+      Requirements = {
+        {
+          Furniture = {
+            Type = "air_pump",
+            Count = 1,
+          },
+        },
+        {
+          Furniture = {
+            TypeTag = "Pressure Door",
+            Count = 2,
+          },
+        },
+        {
+          Size = 3,
+        },
+      },
+      EventActions = {
+        OnControl = {
+          "OnControl_Airlock",
+        },
+        PumpOut = {
+          "PumpOut_Airlock",
+        },
+        PumpIn = {
+          "PumpIn_Airlock",
+        },
+        PumpOff = {
+          "PumpOff_Airlock",
+        },
+      },
+      LocalizationName = "roombehavior_airlock",
+      LocalizationDescription = "roombehavior_airlock_desc",
+    },
+  },
+}
